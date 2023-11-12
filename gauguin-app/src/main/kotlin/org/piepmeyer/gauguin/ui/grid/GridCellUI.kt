@@ -69,28 +69,26 @@ class GridCellUI(
     }
 
     private fun drawCellValue(canvas: Canvas, cellSize: Float) {
-        if (!cell.isUserValueSet) {
-            return
+        cell.userValue?.let {
+            val paint: Paint = paintHolder.cellValuePaint(cell)
+            val textSize = (cellSize * 3 / 4)
+            paint.textSize = textSize
+
+            val leftOffset = if (it <= 9) {
+                cellSize / 2 - textSize / 4
+            } else {
+                cellSize / 2 - textSize / 2
+            }
+
+            val topOffset = cellSize / 2 + textSize * 2 / 5
+
+            canvas.drawText(
+                it.toString(),
+                westPixel + leftOffset,
+                northPixel + topOffset,
+                paint
+            )
         }
-
-        val paint: Paint = paintHolder.cellValuePaint(cell)
-        val textSize = (cellSize * 3 / 4)
-        paint.textSize = textSize
-
-        val leftOffset = if (cell.userValue <= 9) {
-            cellSize / 2 - textSize / 4
-        } else {
-            cellSize / 2 - textSize / 2
-        }
-
-        val topOffset = cellSize / 2 + textSize * 2 / 5
-
-        canvas.drawText(
-            cell.userValue.toString(),
-            westPixel + leftOffset,
-            northPixel + topOffset,
-            paint
-        )
     }
 
     private fun drawCellBackground(canvas: Canvas) {

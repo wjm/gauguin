@@ -78,17 +78,17 @@ class Grid(
     }
 
     fun numberOfMistakes(): Int {
-        return cells.count { it.isUserValueSet && it.userValue != it.value }
+        return cells.count { it.userValue != null && it.userValue != it.value }
     }
 
     private fun shouldBeHighlightedInvalid(cell: GridCell, showDupedDigits: Boolean): Boolean {
-        return cell.isUserValueSet && (
+        return cell.userValue != null && (
             cell.userValue != cell.value ||
                 (showDupedDigits && cell.duplicatedInRowOrColumn)
             )
     }
 
-    fun numberOfFilledCells(): Int = cells.count { it.isUserValueSet }
+    fun numberOfFilledCells(): Int = cells.count { it.userValue != null }
 
     private fun getNumValueInRow(ocell: GridCell): Int {
         return cells.count {
@@ -104,8 +104,8 @@ class Grid(
         }
     }
 
-    fun getPossiblesInRowCol(cell: GridCell): List<GridCell> {
-        return cells.filter { it.isPossible(cell.userValue) }
+    fun getPossiblesInRowCol(cell: GridCell, userValue: Int): List<GridCell> {
+        return cells.filter { it.isPossible(userValue) }
             .filter { it.row == cell.row || it.column == cell.column }
     }
 
@@ -175,8 +175,7 @@ class Grid(
 
     private fun toStringOfCellValues(builder: StringBuilder) {
         for (cell in cells) {
-            val userValue =
-                if (cell.userValue == GridCell.NO_VALUE_SET) "-" else cell.userValue.toString()
+            val userValue = cell.userValue?.toString() ?: "-"
             val value =
                 if (cell.value == GridCell.NO_VALUE_SET) "-" else cell.value.toString()
             builder.append("| ")
@@ -264,7 +263,7 @@ class Grid(
 
     fun userValueChanged() {
         cells.forEach {
-            it.duplicatedInRowOrColumn = it.isUserValueSet && (getNumValueInCol(it) > 1 || getNumValueInRow(it) > 1)
+            it.duplicatedInRowOrColumn = it.userValue != null && (getNumValueInCol(it) > 1 || getNumValueInRow(it) > 1)
         }
 
         cages.forEach { it.userValuesCorrect() }

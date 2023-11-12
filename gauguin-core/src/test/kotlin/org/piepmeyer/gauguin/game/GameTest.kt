@@ -7,7 +7,6 @@ import io.mockk.mockk
 import org.piepmeyer.gauguin.creation.GridBuilder
 import org.piepmeyer.gauguin.creation.cage.GridCageType
 import org.piepmeyer.gauguin.grid.GridCageAction
-import org.piepmeyer.gauguin.grid.GridCell
 
 class GameTest : FunSpec({
 
@@ -29,7 +28,7 @@ class GameTest : FunSpec({
 
         game.restartGame()
 
-        smallGrid.cells.forEach { it.userValue shouldBe GridCell.NO_VALUE_SET }
+        smallGrid.cells.forEach { it.userValue shouldBe null }
         smallGrid.cells.forEach { it.possibles.shouldBeEmpty() }
     }
 })

@@ -38,7 +38,7 @@ class GridCage(
         get() {
             var total = 0
             for (cell in cells) {
-                total += cell.userValue
+                total += cell.userValue!!
             }
             return total == result
         }
@@ -46,7 +46,7 @@ class GridCage(
         get() {
             var total = 1
             for (cell in cells) {
-                total *= cell.userValue
+                total *= cell.userValue!!
             }
             return total == result
         }
@@ -55,10 +55,10 @@ class GridCage(
             if (cells.size != 2) {
                 return false
             }
-            return if (cells[0].userValue > cells[1].userValue) {
-                cells[0].userValue == cells[1].userValue * result
+            return if (cells[0].userValue!! > cells[1].userValue!!) {
+                cells[0].userValue!! == cells[1].userValue!! * result
             } else {
-                cells[1].userValue == cells[0].userValue * result
+                cells[1].userValue!! == cells[0].userValue!! * result
             }
         }
     private val isSubtractMathsCorrect: Boolean
@@ -66,10 +66,10 @@ class GridCage(
             if (cells.size != 2) {
                 return false
             }
-            return if (cells[0].userValue > cells[1].userValue) {
-                cells[0].userValue - cells[1].userValue == result
+            return if (cells[0].userValue!! > cells[1].userValue!!) {
+                cells[0].userValue!! - cells[1].userValue!! == result
             } else {
-                cells[1].userValue - cells[0].userValue == result
+                cells[1].userValue!! - cells[0].userValue!! == result
             }
         }
 
@@ -95,7 +95,7 @@ class GridCage(
         mUserMathCorrect = true
 
         for (cell in cells) {
-            if (!cell.isUserValueSet) {
+            if (cell.userValue == null) {
                 return
             }
         }

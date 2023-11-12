@@ -68,10 +68,9 @@ data class Game(
         }
         clearLastModified()
         undoManager.saveUndo(selectedCell, false)
-        if (selectedCell.isUserValueSet) {
-            val oldValue = selectedCell.userValue
+        selectedCell.userValue?.let {
             selectedCell.clearUserValue()
-            selectedCell.togglePossible(oldValue)
+            selectedCell.togglePossible(it)
             grid.userValueChanged()
         }
         selectedCell.togglePossible(number)
@@ -83,11 +82,11 @@ data class Game(
     }
 
     private fun removePossibles(selectedCell: GridCell) {
-        val possibleCells = grid.getPossiblesInRowCol(selectedCell)
+        val possibleCells = grid.getPossiblesInRowCol(selectedCell, selectedCell.userValue!!)
         for (cell in possibleCells) {
             undoManager.saveUndo(cell, true)
             cell.isLastModified = true
-            cell.removePossible(selectedCell.userValue)
+            cell.removePossible(selectedCell.userValue!!)
         }
     }
 
@@ -113,7 +112,7 @@ data class Game(
             return
         }
 
-        if (selectedCell.isUserValueSet || selectedCell.possibles.isNotEmpty()) {
+        if (selectedCell.userValue != null || selectedCell.possibles.isNotEmpty()) {
             clearLastModified()
             undoManager.saveUndo(selectedCell, false)
             selectedCell.clearUserValue()

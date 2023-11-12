@@ -4,7 +4,6 @@ import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import org.piepmeyer.gauguin.grid.Grid
-import org.piepmeyer.gauguin.grid.GridCell
 import org.piepmeyer.gauguin.grid.GridSize
 import org.piepmeyer.gauguin.options.GameOptionsVariant
 import org.piepmeyer.gauguin.options.GameVariant
@@ -43,16 +42,16 @@ private fun solveBruteForce(grid: Grid, cellNumber: Int) {
             solveBruteForce(grid, cellNumber + 1)
         }
     }
-    cell.setUserValueIntern(GridCell.NO_VALUE_SET)
+    cell.setUserValueIntern(null)
 }
 
 private fun isValidSolution(grid: Grid): Boolean {
     var validSolution = true
     for (cell in grid.cells) {
         validSolution =
-            validSolution and !grid.isUserValueUsedInSameColumn(cell.cellNumber, cell.userValue)
+            validSolution and !grid.isUserValueUsedInSameColumn(cell.cellNumber, cell.userValue!!)
         validSolution =
-            validSolution and !grid.isUserValueUsedInSameRow(cell.cellNumber, cell.userValue)
+            validSolution and !grid.isUserValueUsedInSameRow(cell.cellNumber, cell.userValue!!)
     }
     for (cage in grid.cages) {
         validSolution = validSolution and cage.isMathsCorrect()

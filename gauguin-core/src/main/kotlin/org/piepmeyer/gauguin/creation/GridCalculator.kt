@@ -47,7 +47,7 @@ class GridCalculator(
         } while (dlxNumber != 1)
 
         val averageDLX = sumDLXDuration / numAttempts
-        logger.debug { "DLX Num Attempts = $numAttempts in $sumDLXDuration ms (average $averageDLX ms)" }
+        logger.info { "DLX Num Attempts = $numAttempts in $sumDLXDuration ms (average $averageDLX ms)" }
 
         grid.clearUserValues()
 
