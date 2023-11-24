@@ -1,16 +1,22 @@
-<?xml version="1.0"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
-    <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyle</item>
-    <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
-    <item name="android:windowActivityTransitions">true</item>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
-    <item name="android:windowSharedElementEnterTransition">
-      @transition/change_image_transform</item>
-    <item name="android:windowSharedElementExitTransition">
-      @transition/change_image_transform</item>
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyle</item>
+        <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
+        <item name="android:windowActivityTransitions">true</item>
 
-    <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform
+        </item>
+
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/avd_anim</item>
+
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
