@@ -128,8 +128,10 @@ class GridShapeOptionsFragment : Fragment(R.layout.fragment_new_game_grid_shape_
     }
 
     fun updateNumeralSystem() {
-        if (this.isAdded) {
-            gridPreviewHolder!!.refreshGrid()
+        grid?.options?.numeralSystem = applicationPreferences.numeralSystem
+
+        grid?.let {
+            previewGridCalculated(it)
         }
     }
 

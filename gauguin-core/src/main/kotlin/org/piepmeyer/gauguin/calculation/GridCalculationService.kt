@@ -52,7 +52,7 @@ class GridCalculationService(
     }
 
     fun hasCalculatedNextGrid(variantParam: GameVariant): Boolean {
-        return nextGrid != null && variantParam == variant
+        return nextGrid != null && GamePreviewVariant.fromGameVariant(variantParam) == GamePreviewVariant.fromGameVariant(variant)
     }
 
     fun consumeNextGrid(): Grid {

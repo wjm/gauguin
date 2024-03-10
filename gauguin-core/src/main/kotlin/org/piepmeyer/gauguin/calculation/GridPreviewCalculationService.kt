@@ -20,24 +20,30 @@ private val logger = KotlinLogging.logger {}
 class GridPreviewCalculationService(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) {
-    private val grids: MutableMap<GameVariant, Grid> = WeakHashMap()
+    private val grids: MutableMap<GamePreviewVariant, Grid> = WeakHashMap()
     private var listeners = mutableListOf<GridPreviewListener>()
-    private var lastVariant: GameVariant? = null
+    private var lastVariant: GamePreviewVariant? = null
     private var lastGridCalculation: Deferred<Grid>? = null
 
     fun getGrid(gameVariant: GameVariant): Grid? {
-        return grids[gameVariant]
+        val grid = grids[GamePreviewVariant.fromGameVariant(gameVariant)]
+
+        grid?.options?.numeralSystem = gameVariant.options.numeralSystem
+
+        return grid
     }
 
     fun calculateGrid(
         variant: GameVariant,
         scope: CoroutineScope,
     ) {
-        if (lastVariant == variant) {
+        val previewVariant = GamePreviewVariant.fromGameVariant(variant)
+
+        if (lastVariant == previewVariant) {
             return
         }
 
-        lastVariant = variant
+        lastVariant = previewVariant
 
         var grid: Grid
         var previewStillCalculating: Boolean
@@ -79,12 +85,14 @@ class GridPreviewCalculationService(
     }
 
     private suspend fun getOrCreateGrid(variant: GameVariant): Grid {
-        grids[variant]?.let {
+        val previewVariant = GamePreviewVariant.fromGameVariant(variant)
+
+        grids[previewVariant]?.let {
             return it
         }
 
         val grid = GridCalculator(variant).calculate()
-        grids[variant] = grid
+        grids[previewVariant] = grid
 
         return grid
     }
