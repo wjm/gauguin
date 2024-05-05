@@ -94,6 +94,8 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
         bottomAppBarService.updateAppBarState()
 
         MainDialogs(this).openNewUserHelpDialog()
+
+        logger.info { "Intent: ${intent.getStringExtra(Intent.EXTRA_TEXT)}" }
     }
 
     override fun onDestroy() {
