@@ -3,6 +3,7 @@ package org.piepmeyer.gauguin.ui.main
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -96,6 +97,16 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
         MainDialogs(this).openNewUserHelpDialog()
 
         logger.info { "Intent: ${intent.getStringExtra(Intent.EXTRA_TEXT)}" }
+
+        try {
+            val intent = Intent("com.google.zxing.client.android.SCAN")
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE") // "PRODUCT_MODE for bar codes
+            startActivityForResult(intent, 0)
+        } catch (e: Exception) {
+            val marketUri = Uri.parse("market://details?id=com.google.zxing.client.android")
+            val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
+            startActivity(marketIntent)
+        }
     }
 
     override fun onDestroy() {
@@ -168,6 +179,14 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
         if (data == null) {
             return
         }
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                val contents = data.getStringExtra("SCAN_RESULT")
+                logger.info { "Scan resuult: $contents" }
+            }
+        }
+
         if (resultCode == 99) {
             gameLifecycle.postNewGame(startedFromMainActivityWithSameVariant = false)
             return
