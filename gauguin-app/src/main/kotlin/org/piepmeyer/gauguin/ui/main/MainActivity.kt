@@ -75,7 +75,11 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
 
         MainNavigationViewService(this, binding).initialize()
 
+        freshGridWasCreated()
+
         calculationService.addListener(createGridCalculationListener())
+        updateCurrentGridCalculation()
+
         configureActivity()
 
         val specialListener =
@@ -89,8 +93,6 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this.applicationContext)
         preferences.registerOnSharedPreferenceChangeListener(specialListener)
-
-        freshGridWasCreated()
 
         bottomAppBarService.updateAppBarState()
 
@@ -106,20 +108,11 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
     private fun createGridCalculationListener(): GridCalculationListener {
         return object : GridCalculationListener {
             override fun startingCurrentGridCalculation() {
-                runOnUiThread {
-                    binding.gridview.visibility = View.INVISIBLE
-                    binding.ferrisWheelView.visibility = View.VISIBLE
-                    binding.ferrisWheelView.startAnimation()
-                }
+                updateCurrentGridCalculation()
             }
 
             override fun currentGridCalculated() {
-                runOnUiThread {
-                    binding.gridview.visibility = View.VISIBLE
-
-                    binding.ferrisWheelView.visibility = View.INVISIBLE
-                    binding.ferrisWheelView.stopAnimation()
-                }
+                updateCurrentGridCalculation()
             }
 
             override fun startingNextGridCalculation() {
@@ -132,6 +125,21 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
                 runOnUiThread {
                     binding.pendingNextGridCalculation.visibility = View.INVISIBLE
                 }
+            }
+        }
+    }
+
+    private fun updateCurrentGridCalculation() {
+        runOnUiThread {
+            if (calculationService.isCalculatingCurrentGrid()) {
+                binding.gridview.visibility = View.INVISIBLE
+                binding.ferrisWheelView.visibility = View.VISIBLE
+                binding.ferrisWheelView.startAnimation()
+            } else {
+                binding.gridview.visibility = View.VISIBLE
+
+                binding.ferrisWheelView.visibility = View.INVISIBLE
+                binding.ferrisWheelView.stopAnimation()
             }
         }
     }
@@ -174,9 +182,9 @@ class MainActivity : AppCompatActivity(), GridCreationListener, GameSolvedListen
 
         binding.konfettiView.reset()
 
-        if (game.grid.isActive) {
-            binding.gridview.requestFocus()
-            binding.gridview.invalidate()
+        if (game.grid.isActive && !calculationService.isCalculatingCurrentGrid()) {
+            // binding.gridview.requestFocus()
+            // binding.gridview.invalidate()
             gameLifecycle.resumeGame()
         }
 

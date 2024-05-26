@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.piepmeyer.gauguin.creation.GridCalculatorFactory
@@ -40,8 +41,8 @@ class GridCalculationService(
         scope: CoroutineScope,
         invokeAfterNewGridWasCreated: (Grid) -> Unit,
     ) {
-        currentGridJob =
-            scope.launch(dispatcher) {
+        val gridJob =
+            scope.async(dispatcher) {
                 logger.info { "Calculating current grid of $variant" }
                 listeners.forEach { it.startingCurrentGridCalculation() }
 
@@ -50,9 +51,17 @@ class GridCalculationService(
                 invokeAfterNewGridWasCreated.invoke(newGrid)
                 logger.info { "Finished calculating current grid via factory of $variant" }
 
-                listeners.forEach { it.currentGridCalculated() }
-                logger.info { "Finished calculating current grid of $variant" }
+                return@async newGrid
             }
+
+        currentGridJob = gridJob
+
+        scope.launch(dispatcher) {
+            gridJob.join()
+
+            listeners.forEach { it.currentGridCalculated() }
+            logger.info { "Finished calculating current grid of $variant" }
+        }
     }
 
     fun calculateNextGrid(scope: CoroutineScope) {
@@ -88,5 +97,9 @@ class GridCalculationService(
     fun stopCalculations() {
         currentGridJob?.cancel(message = "Grid changed.")
         nextGridJob?.cancel(message = "Grid changed.")
+    }
+
+    fun isCalculatingCurrentGrid(): Boolean {
+        return !(currentGridJob?.isCompleted ?: true)
     }
 }
