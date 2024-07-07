@@ -27,6 +27,7 @@ import org.piepmeyer.gauguin.game.save.SavedGamesService
 import org.piepmeyer.gauguin.ui.LoadGameListActivity
 import org.piepmeyer.gauguin.ui.MainDialogs
 import org.piepmeyer.gauguin.ui.SettingsActivity
+import org.piepmeyer.gauguin.ui.share.ShareGameActivity
 import org.piepmeyer.gauguin.ui.statistics.StatisticsActivity
 
 class MainNavigationViewService(
@@ -187,13 +188,18 @@ class MainNavigationViewService(
                     mainActivity.gameSaved()
                 }
 
+                shareGameViaQrCodeItem -> {
+                    mainActivity.startActivity(
+                        Intent(mainActivity, ShareGameActivity::class.java),
+                    )
+                }
+
                 scanQrCodeToImportGameItem -> {
                     val scanOptions = ScanOptions()
                     scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
                     scanOptions.setOrientationLocked(false)
                     scanOptions.setBarcodeImageEnabled(false)
                     scanOptions.setPrompt("Test")
-                    scanOptions
 
                     mainActivity.barcodeLauncher.launch(scanOptions)
                 }

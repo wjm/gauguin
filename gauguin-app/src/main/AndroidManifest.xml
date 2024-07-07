@@ -27,6 +27,9 @@
         <activity android:name=".ui.newgame.NewGameActivity" />
         <activity android:name=".ui.LoadGameListActivity" />
         <activity
+            android:name=".ui.share.ShareGameActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.statistics.StatisticsActivity"
             android:label="@string/statistics_title" />
         <activity android:name=".ui.AboutActivity" />
