@@ -7,10 +7,14 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.koin.android.ext.android.inject
 import org.piepmeyer.gauguin.R
@@ -43,6 +47,7 @@ class MainActivity :
     private lateinit var binding: ActivityMainBinding
     private lateinit var topFragment: GameTopFragment
     private lateinit var bottomAppBarService: MainBottomAppBarService
+    lateinit var barcodeLauncher: ActivityResultLauncher<ScanOptions>
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +57,22 @@ class MainActivity :
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
 
         gameLifecycle.setCoroutineScope(this.lifecycleScope)
+
+        barcodeLauncher =
+            registerForActivityResult(
+                ScanContract(),
+            ) {
+                if (it.contents == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast
+                        .makeText(
+                            this,
+                            "Scanned: " + it.contents,
+                            Toast.LENGTH_LONG,
+                        ).show()
+                }
+            }
 
         game.gridUI = binding.gridview
         binding.gridview.setOnLongClickListener {

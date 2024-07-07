@@ -8,6 +8,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.view.marginStart
 import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
+import com.journeyapps.barcodescanner.ScanOptions
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -59,28 +60,40 @@ class MainNavigationViewService(
             identifier = 4
             iconRes = R.drawable.outline_save_24
         }
+    private val shareGameViaQrCodeItem =
+        PrimaryDrawerItem().apply {
+            name = StringHolder("Share")
+            identifier = 5
+            iconRes = R.drawable.outline_save_24
+        }
+    private val scanQrCodeToImportGameItem =
+        PrimaryDrawerItem().apply {
+            name = StringHolder("Scan")
+            identifier = 6
+            iconRes = R.drawable.outline_save_24
+        }
     private val statisticsItem =
         SecondaryDrawerItem().apply {
             nameRes = R.string.main_menu_item_show_statistics
-            identifier = 5
+            identifier = 7
             iconRes = R.drawable.outline_leaderboard_24
         }
     private val settingsItem =
         SecondaryDrawerItem().apply {
             nameRes = R.string.main_menu_item_open_settings
-            identifier = 6
+            identifier = 8
             iconRes = R.drawable.outline_settings_24
         }
     private val helpItem =
         SecondaryDrawerItem().apply {
             nameRes = R.string.main_menu_item_show_help
-            identifier = 7
+            identifier = 9
             iconRes = R.drawable.outline_help_24
         }
     private val bugsAndFeaturesItem =
         SecondaryDrawerItem().apply {
             nameRes = R.string.main_menu_item_open_github_issues
-            identifier = 8
+            identifier = 10
             iconRes = R.drawable.outline_bug_report_24
         }
 
@@ -109,6 +122,8 @@ class MainNavigationViewService(
             DividerDrawerItem(),
             loadGameItem,
             saveGameItem,
+            shareGameViaQrCodeItem,
+            scanQrCodeToImportGameItem,
             DividerDrawerItem(),
             statisticsItem,
             settingsItem,
@@ -156,8 +171,8 @@ class MainNavigationViewService(
         }
     }
 
-    private fun createDrawerClickListener(): (v: View?, item: IDrawerItem<*>, position: Int) -> Boolean {
-        return { _, menuItem, _ ->
+    private fun createDrawerClickListener(): (v: View?, item: IDrawerItem<*>, position: Int) -> Boolean =
+        { _, menuItem, _ ->
             when (menuItem) {
                 newGameItem -> mainActivity.showNewGameDialog()
                 loadGameItem -> {
@@ -170,6 +185,17 @@ class MainNavigationViewService(
                     currentGameSaver.save()
 
                     mainActivity.gameSaved()
+                }
+
+                scanQrCodeToImportGameItem -> {
+                    val scanOptions = ScanOptions()
+                    scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                    scanOptions.setOrientationLocked(false)
+                    scanOptions.setBarcodeImageEnabled(false)
+                    scanOptions.setPrompt("Test")
+                    scanOptions
+
+                    mainActivity.barcodeLauncher.launch(scanOptions)
                 }
 
                 restartGameItem -> MainDialogs(mainActivity).restartGameDialog()
@@ -203,5 +229,4 @@ class MainNavigationViewService(
 
             true
         }
-    }
 }

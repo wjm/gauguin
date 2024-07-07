@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto"
     android:versionCode="33"
     android:versionName="0.28.0">
@@ -12,7 +13,8 @@
         android:name=".MainApplication"
         android:supportsRtl="true"
         android:allowBackup="true"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="false"
+        android:hardwareAccelerated="true">
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">
@@ -31,6 +33,10 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:exported="false" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
     </application>
 
 </manifest>

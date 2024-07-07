@@ -149,7 +149,10 @@ dependencies {
 
     implementation(libs.bundles.koin)
 
-    debugImplementation(libs.thirdparty.leakcanary)
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0") { isTransitive = false }
+    implementation("com.google.zxing:core:3.5.3")
+
+    // debugImplementation(libs.thirdparty.leakcanary)
 
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.koin.test)
