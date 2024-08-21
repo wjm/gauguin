@@ -8,7 +8,9 @@ import org.piepmeyer.gauguin.R
 import org.piepmeyer.gauguin.grid.GridCage
 import org.piepmeyer.gauguin.grid.GridCell
 
-class GridPaintHolder(gridUI: GridUI) {
+class GridPaintHolder(
+    gridUI: GridUI,
+) {
     private val backgroundPaint: Paint = Paint()
 
     private val valuePaint: Paint = Paint()
@@ -60,7 +62,7 @@ class GridPaintHolder(gridUI: GridUI) {
         gridPaint.flags = Paint.ANTI_ALIAS_FLAG
         gridPaint.color =
             ColorUtils.blendARGB(
-                gridUI.resources.getColor(R.color.gridCage, null),
+                MaterialColors.getColor(gridUI, R.attr.colorGridCage),
                 MaterialColors.getColor(gridUI, com.google.android.material.R.attr.colorSurface),
                 if (gridUI.isInEditMode) {
                     0.0f
@@ -113,7 +115,7 @@ class GridPaintHolder(gridUI: GridUI) {
         valuePaint.typeface = fontValue
 
         valueSelectedPaint.flags = Paint.ANTI_ALIAS_FLAG
-        valueSelectedPaint.color = gridUI.resources.getColor(R.color.gridSelected, null)
+        valueSelectedPaint.color = MaterialColors.getColor(gridUI, R.attr.colorGridSelected)
         valueSelectedPaint.typeface = fontValue
         valueSelectedFastFinishModePaint.flags = Paint.ANTI_ALIAS_FLAG
         valueSelectedFastFinishModePaint.color = MaterialColors.getColor(gridUI, com.google.android.material.R.attr.colorSurface)
@@ -125,11 +127,11 @@ class GridPaintHolder(gridUI: GridUI) {
 
         possiblesSelectedPaint.flags = Paint.ANTI_ALIAS_FLAG
         possiblesSelectedPaint.textSize = 6f
-        possiblesSelectedPaint.color = gridUI.resources.getColor(R.color.gridSelected, null)
+        possiblesSelectedPaint.color = MaterialColors.getColor(gridUI, R.attr.colorGridSelected)
         possiblesSelectedPaint.typeface = fontPossibles
         possiblesSelectedFastFinishModePaint.flags = Paint.ANTI_ALIAS_FLAG
         possiblesSelectedFastFinishModePaint.textSize = 6f
-        possiblesSelectedFastFinishModePaint.color = gridUI.resources.getColor(R.color.gridSelectedText, null)
+        possiblesSelectedFastFinishModePaint.color = MaterialColors.getColor(gridUI, R.attr.colorGridSelectedText)
         possiblesSelectedFastFinishModePaint.typeface = fontPossibles
 
         previewTextPaint.flags = Paint.ANTI_ALIAS_FLAG
@@ -140,18 +142,18 @@ class GridPaintHolder(gridUI: GridUI) {
         previewPaint.color = MaterialColors.getColor(gridUI, com.google.android.material.R.attr.colorTertiaryContainer)
 
         selectedPaint.flags = Paint.ANTI_ALIAS_FLAG
-        selectedPaint.color = gridUI.resources.getColor(R.color.gridSelected, null)
+        selectedPaint.color = MaterialColors.getColor(gridUI, R.attr.colorGridSelected)
         selectedPaint.style = Paint.Style.STROKE
 
         selectedFastFinishModePaint.flags = Paint.ANTI_ALIAS_FLAG
-        selectedFastFinishModePaint.color = gridUI.resources.getColor(R.color.gridSelected, null)
+        selectedFastFinishModePaint.color = MaterialColors.getColor(gridUI, R.attr.colorGridSelected)
         selectedFastFinishModePaint.style = Paint.Style.FILL_AND_STROKE
         textOnSelectedFastFinishModePaint.flags = Paint.ANTI_ALIAS_FLAG
-        textOnSelectedFastFinishModePaint.color = gridUI.resources.getColor(R.color.gridSelectedText, null)
+        textOnSelectedFastFinishModePaint.color = MaterialColors.getColor(gridUI, R.attr.colorGridSelectedText)
 
         lastModifiedPaint.color =
             ColorUtils.blendARGB(
-                gridUI.resources.getColor(R.color.gridSelected, null),
+                MaterialColors.getColor(gridUI, R.attr.colorGridSelected),
                 MaterialColors.getColor(gridUI, com.google.android.material.R.attr.colorSurface),
                 0.5f,
             )
@@ -215,14 +217,13 @@ class GridPaintHolder(gridUI: GridUI) {
         cage: GridCage,
         previewMode: Boolean,
         fastFinishMode: Boolean,
-    ): Paint {
-        return when {
+    ): Paint =
+        when {
             previewMode -> cageTextPreviewModePaint
             cage.getCell(0).isSelected && fastFinishMode -> cageTextSelectedFastFinishModePaint
             cage.getCell(0).isSelected -> cageTextSelectedPaint
             else -> cageTextPaint
         }
-    }
 
     fun previewBannerTextPaint(): Paint = previewTextPaint
 

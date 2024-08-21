@@ -52,7 +52,9 @@
         <item name="colorMainHintPopupSuccessBackground">@color/md_theme_light_primaryContainer</item>
         <item name="colorMainHintPopupErrorsForeground">#221b00</item>
         <item name="colorMainHintPopupErrorsBackground">#ffe171</item>
-
+        <item name="colorGridSelected">@color/md_theme_light_secondary</item>
+        <item name="colorGridSelectedText">@color/md_theme_light_onSecondary</item>
+        <item name="colorGridCage">#512f36</item>
   </style>
 
   <style name="AppThemeMonochrome" parent="Theme.Material3.DayNight.NoActionBar">
@@ -107,6 +109,9 @@
     <item name="colorMainHintPopupSuccessBackground">@color/md_theme_monochrome_primaryContainer</item>
     <item name="colorMainHintPopupErrorsForeground">#221b00</item>
     <item name="colorMainHintPopupErrorsBackground">#ffe171</item>
+    <item name="colorGridSelected">@color/md_theme_monochrome_secondary</item>
+    <item name="colorGridSelectedText">@color/md_theme_monochrome_onSecondary</item>
+    <item name="colorGridCage">#512f36</item>
 
   </style>
 </resources>

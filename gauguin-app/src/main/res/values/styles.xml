@@ -2,9 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <color name="gridSelected">@color/md_theme_light_secondary</color>
-    <color name="gridSelectedText">@color/md_theme_light_onSecondary</color>
-    <color name="gridCage">#512f36</color>
     <fraction name="gradCageOpacity">70%</fraction>
 
     <style name="BalloonHintPopupTheme" parent="Theme.AppCompat.Light"/>

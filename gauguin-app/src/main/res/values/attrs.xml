@@ -16,4 +16,7 @@
     <attr name="colorMainHintPopupSuccessBackground" format="color" />
     <attr name="colorMainHintPopupErrorsForeground" format="color" />
     <attr name="colorMainHintPopupErrorsBackground" format="color" />
+    <attr name="colorGridSelected" format="color" />
+    <attr name="colorGridSelectedText" format="color" />
+    <attr name="colorGridCage" format="color" />
 </resources>

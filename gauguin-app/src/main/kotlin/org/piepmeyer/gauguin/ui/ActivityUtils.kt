@@ -32,11 +32,11 @@ class ActivityUtils : KoinComponent {
     fun configureNightMode(activity: Activity) {
         when (applicationPreferences.theme) {
             Theme.LIGHT -> {
-                activity.setTheme(R.style.AppTheme)
+                // activity.setTheme(R.style.AppTheme)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             Theme.DARK -> {
-                activity.setTheme(R.style.AppTheme)
+                // activity.setTheme(R.style.AppTheme)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
             Theme.MONOCHROME -> {
