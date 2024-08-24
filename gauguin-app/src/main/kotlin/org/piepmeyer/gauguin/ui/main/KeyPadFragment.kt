@@ -89,6 +89,7 @@ class KeyPadFragment :
             true
         }
         var lastClickTime = 0L
+        //test
         numberButton.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val clickTime = System.currentTimeMillis()
