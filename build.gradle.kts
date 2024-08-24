@@ -38,7 +38,7 @@ allprojects {
         mavenCentral()
         google()
         maven { url = URI("https://jitpack.io") }
-        maven { url = URI("http://maven.aliyun.com/nexus/content/groups/public/") }
+        maven { url = URI("https://maven.aliyun.com/nexus/content/groups/public/") }
     }
 }
 
