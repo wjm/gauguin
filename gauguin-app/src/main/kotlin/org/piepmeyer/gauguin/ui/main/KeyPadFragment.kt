@@ -88,6 +88,19 @@ class KeyPadFragment :
             game.enterNumber(numberButtonToDigit[numberButton]!!)
             true
         }
+        var lastClickTime = 0L
+        numberButton.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val clickTime = System.currentTimeMillis()
+                if (clickTime - lastClickTime < 300) {
+                    game.enterNumber(numberButtonToDigit[numberButton]!!)
+                    lastClickTime = 0L
+                } else {
+                    lastClickTime = clickTime
+                }
+            }
+            false
+        }
     }
 
     override fun freshGridWasCreated() {
